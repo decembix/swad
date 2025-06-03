@@ -30,7 +30,6 @@ public class Cart {
     }
 }
 
-
     // 총 금액 계산
     public int getTotalPrice() {
         int total = 0;
@@ -46,4 +45,10 @@ public class Cart {
     public void clearCart() {
         cartList.clear();
     }
+
+    // getter 함수
+    public Map<MenuItem, Integer> getCartList() {
+    return cartList;
+}
+
 }
