@@ -19,13 +19,11 @@ public class MenuItem {
 
     public int isAvailavle(){
         //MenuList에 this라는 Item이 있으면 return 1 없으면 retutn 0
-
         return 1;
     }
 
     public int isinMenu(){
         //MenuList에 this라는 Item이 있으면 return 1 없으면 retutn 0
-
         return 1;
     }
 

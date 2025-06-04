@@ -8,14 +8,14 @@ public class Screen {
 
     public void displayCategories(MenuList menuList) {
     menuList.displayCategories();
-}
+    }
 
-public void displayMenuByCategory(MenuList menuList, String category) {
-    System.out.println("______________________________________");
-    System.out.println("[ " + category + " 메뉴 ]");
-    menuList.displayMenuByCategory(category);
-    System.out.println("______________________________________");
-}
+    public void displayMenuByCategory(MenuList menuList, String category) {
+        System.out.println("______________________________________");
+        System.out.println("[ " + category + " 메뉴 ]");
+        menuList.displayMenuByCategory(category);
+        System.out.println("______________________________________");
+    }
 
 
     public void displayMenu(MenuList menuList) {

@@ -24,6 +24,7 @@ public class Kiosk {
         printer = new Printer();
     }
 
+    // 초기화면
     public void start() {
         screen.displayInitialScreen();
         String input = scanner.nextLine();
@@ -43,6 +44,7 @@ public class Kiosk {
         }
     }
 
+    // 선택한 인덱스를 카테고리로 전환
     private String getCategoryByIndex(String input) {
         List<String> order = Arrays.asList("세트", "버거", "음료");
         try {
@@ -116,17 +118,17 @@ public class Kiosk {
                     }
                 }
 
-            } else if (next.equalsIgnoreCase("Y")) {
-                break; // 다시 카테고리 선택으로
-            } else if (next.equalsIgnoreCase("N")) {
-                clickPaymentButton(); // 결제 화면으로
-                return;
-            } else {
-                System.out.println("잘못된 입력입니다.");
+                } else if (next.equalsIgnoreCase("Y")) {
+                    break; // 다시 카테고리 선택으로
+                } else if (next.equalsIgnoreCase("N")) {
+                    clickPaymentButton(); // 결제 화면으로
+                    return;
+                } else {
+                    System.out.println("잘못된 입력입니다.");
+                }
             }
         }
     }
-}
 
 
     //카드번호 검사(8자리)
@@ -158,6 +160,7 @@ public class Kiosk {
     return true;
     }
 
+    // 결제 처리(카드, 쿠폰 사용)
     public void clickPaymentButton() {
         screen.displayFinalAmount(cart);
 
@@ -240,55 +243,56 @@ public class Kiosk {
         }
     }
 
-
+    // 결제 성공
     public void onPaymentSuccess(String method, String couponCode, String cardNumber, String expiry, Cart cart) {
-    payment.processPayment(cart.getTotalPrice());
+        payment.processPayment(cart.getTotalPrice());
 
-    printer.printReceipt(method, couponCode, cardNumber, expiry, cart);
+        printer.printReceipt(method, couponCode, cardNumber, expiry, cart);
 
-    System.out.println("결제가 완료되었습니다. 이용해 주셔서 감사합니다.");
-    cleanup();
-}
+        System.out.println("결제가 완료되었습니다. 이용해 주셔서 감사합니다.");
+        cleanup();
+    }
 
-
+    // 결제 실패
     public void onPaymentFailure() {
         System.out.println("\n결제가 취소되었습니다. 초기화면으로 돌아갑니다.");
         cart.clearCart();
         start();
     }
 
+    // 프로그램 종료
     private void cleanup() {
         scanner.close();
         System.exit(0);
     }
 
+    // 관리자 모드
     private void adminLoop() {
-    while (true) {
-        System.out.print("\n메뉴를 추가하시겠습니까? (A), 삭제하시겠습니까? (R): ");
-        String action = scanner.nextLine();
+        while (true) {
+            System.out.print("\n메뉴를 추가하시겠습니까? (A), 삭제하시겠습니까? (R): ");
+            String action = scanner.nextLine();
 
-        if (action.equalsIgnoreCase("A")) {
-            admin.addMenuItem();
-        } else if (action.equalsIgnoreCase("R")) {
-            admin.removeMenuItem();
-        } else {
-            System.out.println("잘못된 입력입니다.\n");
+            if (action.equalsIgnoreCase("A")) {
+                admin.addMenuItem();
+            } else if (action.equalsIgnoreCase("R")) {
+                admin.removeMenuItem();
+            } else {
+                System.out.println("잘못된 입력입니다.\n");
+            }
+
+            System.out.print("\n계속 작업하시겠습니까? (C) / 종료하시겠습니까? (Q): ");
+            String next = scanner.nextLine();
+            if (next.equalsIgnoreCase("Q")) {
+                System.out.println("관리자 모드를 종료합니다.\n");
+                break;
+            }
         }
 
-        System.out.print("\n계속 작업하시겠습니까? (C) / 종료하시겠습니까? (Q): ");
-        String next = scanner.nextLine();
-        if (next.equalsIgnoreCase("Q")) {
-            System.out.println("관리자 모드를 종료합니다.\n");
-            break;
-        }
-    }
-
-    start(); // 초기화면으로 복귀
+        start(); // 초기화면으로 복귀
     }
 
     public static void main(String[] args) {
         Kiosk kiosk = new Kiosk();
         kiosk.start();
     }
-    
 }

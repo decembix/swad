@@ -15,6 +15,7 @@ public class Cart {
         cartList.put(item, count + 1);
     }
 
+    // 장바구니 보여주기
     public void display() {
         if (cartList.isEmpty()) {
             System.out.println("장바구니가 비어 있습니다.");
@@ -52,6 +53,7 @@ public class Cart {
     return cartList;
     }
 
+    // 지정한 카테고리 가격
     public int getTotalPriceByCategory(String category) {
     int total = 0;
     for (Map.Entry<MenuItem, Integer> entry : cartList.entrySet()) {
@@ -62,7 +64,8 @@ public class Cart {
     }
     return total;
     }
-
+    
+    // 특정 카테고리 제외 가격
     public int getTotalPriceExcludingCategory(String category) {
         int total = 0;
         for (Map.Entry<MenuItem, Integer> entry : cartList.entrySet()) {
@@ -74,11 +77,13 @@ public class Cart {
         return total;
     }
 
+    // 장바구니 수량 추가
     public void increaseQuantity(MenuItem item) {
         int count = cartList.getOrDefault(item, 0);
         cartList.put(item, count + 1);
     }
 
+    // 장바구니 수량 줄이기
     public void decreaseQuantity(MenuItem item) {
         int count = cartList.getOrDefault(item, 0);
         if (count <= 1) {

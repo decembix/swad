@@ -58,8 +58,6 @@ public class Admin {
     System.out.println("메뉴가 추가되었습니다.\n");
 }
 
-
-
     // 메뉴 삭제
     public void removeMenuItem() {
     System.out.println("[메뉴 삭제]");

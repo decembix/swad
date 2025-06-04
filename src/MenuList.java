@@ -34,6 +34,7 @@ public class MenuList {
         }
     }
 
+    // 카테고리별 메뉴 보여주기
     public void displayMenuByCategory(String category) {
         List<MenuItem> items = categoryMap.get(category);
         if (items == null || items.isEmpty()) {
@@ -47,6 +48,7 @@ public class MenuList {
         }
     }
 
+    // 번호 선택 -> 해당 카테고리 메뉴 보여주기
     public MenuItem getMenuItemByCategoryAndIndex(String category, String input) {
         List<MenuItem> items = categoryMap.get(category);
         try {
@@ -60,13 +62,15 @@ public class MenuList {
         return null;
     }
 
+    // 메뉴 추가(관리자용)
     public void addMenuItem(String category, MenuItem item) {
-    List<MenuItem> list = categoryMap.get(category);
-    if (list != null) {
-        list.add(item);
+        List<MenuItem> list = categoryMap.get(category);
+        if (list != null) {
+            list.add(item);
+        }
     }
-}
 
+    // 메뉴 삭제(관리자용)
     public void removeMenuItem(String category, int index) {
         List<MenuItem> list = categoryMap.get(category);
         if (list != null && index >= 0 && index < list.size()) {
@@ -74,6 +78,7 @@ public class MenuList {
         }
     }
 
+    // 메뉴 보여주기(관리자용)
     public void displayMenuForAdmin(String category) {
         List<MenuItem> list = categoryMap.get(category);
         for (int i = 0; i < list.size(); i++) {
