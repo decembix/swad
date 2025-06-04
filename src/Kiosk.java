@@ -1,3 +1,4 @@
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;
@@ -55,46 +56,78 @@ public class Kiosk {
         return null;
     }
 
-    public void clickMenuButton() {
+   public void clickMenuButton() {
+    while (true) {
+        screen.displayCategories(menuList);
+
+        System.out.print("카테고리를 선택하세요: ");
+        String catInput = scanner.nextLine();
+        String selectedCategory = getCategoryByIndex(catInput);
+
+        if (selectedCategory == null) {
+            System.out.println("잘못된 카테고리입니다.");
+            continue;
+        }
+
+        screen.displayMenuByCategory(menuList, selectedCategory);
+
+        System.out.print("주문할 메뉴 번호: ");
+        String menuInput = scanner.nextLine();
+        MenuItem selected = menuList.getMenuItemByCategoryAndIndex(selectedCategory, menuInput);
+        if (selected != null) {
+            cart.addItem(selected);
+        } else {
+            System.out.println("잘못된 선택입니다.");
+        }
+
         while (true) {
-            screen.displayCategories(menuList);
+            System.out.print("더 주문하시겠습니까?(Y/N) 장바구니를 보려면 C를 입력하세요: ");
+            String next = scanner.nextLine();
 
-            System.out.print("카테고리를 선택하세요: ");
-            String catInput = scanner.nextLine();
+            if (next.equalsIgnoreCase("C")) {
+                cart.display();
 
-            String selectedCategory = getCategoryByIndex(catInput);
-            if (selectedCategory == null) {
-                System.out.println("잘못된 카테고리입니다.");
-                continue;
-            }
+                if (!cart.isEmpty()) {
+                    System.out.print("\n수량을 수정하시겠습니까? (Y/N):  \n");
+                    String modify = scanner.nextLine();
 
-            screen.displayMenuByCategory(menuList, selectedCategory);
-            System.out.print("주문할 메뉴 번호: ");
-            String menuInput = scanner.nextLine();
-            MenuItem selected = menuList.getMenuItemByCategoryAndIndex(selectedCategory, menuInput);
-            if (selected != null) {
-                cart.addItem(selected);
-            } else {
-                System.out.println("잘못된 선택입니다.");
-            }
+                    if (modify.equalsIgnoreCase("Y")) {
+                        List<MenuItem> itemList = new ArrayList<>(cart.getCartList().keySet());
+                        for (int i = 0; i < itemList.size(); i++) {
+                            System.out.printf("%d. %s\n", i + 1, itemList.get(i).getName());
+                        }
 
-            while (true) {
-                System.out.print("\n더 주문하시겠습니까?(Y/N) 장바구니를 보려면 C를 입력하세요: ");
-                String next = scanner.nextLine();
+                        System.out.print("수정할 항목 번호를 선택하세요: ");
+                        int choice = Integer.parseInt(scanner.nextLine()) - 1;
 
-                if (next.equalsIgnoreCase("C")) {
-                    cart.display();
-                } else if (next.equalsIgnoreCase("Y")) {
-                    break; 
-                } else if (next.equalsIgnoreCase("N")) {
-                    clickPaymentButton();
-                    return;
-                } else {
-                    System.out.println("잘못된 입력입니다.");
+                        if (choice >= 0 && choice < itemList.size()) {
+                            MenuItem selectedItem = itemList.get(choice);
+                            System.out.print("수량을 늘릴까요(+), 줄일까요(-)?: ");
+                            String op = scanner.nextLine();
+
+                            if (op.equals("+")) {
+                                cart.increaseQuantity(selectedItem);
+                            } else if (op.equals("-")) {
+                                cart.decreaseQuantity(selectedItem);
+                            } else {
+                                System.out.println("잘못된 입력입니다.");
+                            }
+                        }
+                    }
                 }
-             }
+
+            } else if (next.equalsIgnoreCase("Y")) {
+                break; // 다시 카테고리 선택으로
+            } else if (next.equalsIgnoreCase("N")) {
+                clickPaymentButton(); // 결제 화면으로
+                return;
+            } else {
+                System.out.println("잘못된 입력입니다.");
+            }
         }
     }
+}
+
 
     //카드번호 검사(8자리)
     private boolean isValidCardNumber(String cardNumber) {
@@ -161,11 +194,11 @@ public class Kiosk {
                                     onPaymentSuccess("쿠폰+카드", couponCode, cardInput, exp, cart);
 
                                 } else {
-                                    System.out.println("유효하지 않은 유효기간입니다.");
+                                    System.out.println("유효하지 않은 유효기간입니다.\n");
                                     onPaymentFailure();
                                 }
                             } else {
-                                System.out.println("유효하지 않은 카드번호입니다.");
+                                System.out.println("유효하지 않은 카드번호입니다.\n");
                                 onPaymentFailure();
                             }
                         } else {
@@ -175,10 +208,10 @@ public class Kiosk {
                         return;
 
                     } else if (couponCode.equals("0")) {
-                        System.out.println("쿠폰 사용을 건너뜁니다.");
+                        System.out.println("쿠폰 사용을 건너뜁니다.\n");
                         break; // 카드결제로
                     } else {
-                        System.out.println("유효하지 않은 쿠폰입니다. 다시 입력해주세요.");
+                        System.out.println("유효하지 않은 쿠폰입니다. 다시 입력해주세요.\n");
                     }
                 }
             }

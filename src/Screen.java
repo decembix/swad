@@ -26,10 +26,11 @@ public void displayMenuByCategory(MenuList menuList, String category) {
     }
 
     public void displayFinalAmount(Cart cart) {
-        System.out.println("[ 최종 금액 화면 ]");
+        System.out.println("\n===================[ 최종 금액 화면 ]====================");
         cart.display(); // 장바구니 내역 출력
         System.out.printf("최종 금액 : %d원\n", cart.getTotalPrice());
         System.out.println();
+        System.out.println("==========================================================");
         System.out.println("[결제 화면]");
         System.out.print("결제하시겠습니까?[Y/N]: ");
     }
