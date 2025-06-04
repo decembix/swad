@@ -6,7 +6,7 @@ public class MenuList {
     public MenuList() {
         categoryMap = new HashMap<>();
 
-        // 카테고리 초기화
+        // 카테고리
         categoryMap.put("버거", new ArrayList<>());
         categoryMap.put("음료", new ArrayList<>());
         categoryMap.put("세트", new ArrayList<>());

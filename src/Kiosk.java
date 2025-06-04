@@ -83,9 +83,9 @@ public class Kiosk {
                 String next = scanner.nextLine();
 
                 if (next.equalsIgnoreCase("C")) {
-                    cart.display(); // 장바구니 보여주고 → 다시 위로 루프
+                    cart.display();
                 } else if (next.equalsIgnoreCase("Y")) {
-                    break; // → 메뉴 선택 반복 계속
+                    break; 
                 } else if (next.equalsIgnoreCase("N")) {
                     clickPaymentButton();
                     return;
@@ -125,87 +125,87 @@ public class Kiosk {
     return true;
     }
 
-public void clickPaymentButton() {
-    screen.displayFinalAmount(cart);
+    public void clickPaymentButton() {
+        screen.displayFinalAmount(cart);
 
-    String input = scanner.nextLine();
-    if (input.equalsIgnoreCase("Y")) {
+        String input = scanner.nextLine();
+        if (input.equalsIgnoreCase("Y")) {
 
-        System.out.print("쿠폰을 사용하시겠습니까? (Y/N): ");
-        String useCoupon = scanner.nextLine();
+            System.out.print("쿠폰을 사용하시겠습니까? (Y/N): ");
+            String useCoupon = scanner.nextLine();
 
-        if (useCoupon.equalsIgnoreCase("Y")) {
-            while (true) {
-                System.out.print("쿠폰 번호를 입력하세요 (0 입력 시 건너뜀): ");
-                String couponCode = scanner.nextLine();
+            if (useCoupon.equalsIgnoreCase("Y")) {
+                while (true) {
+                    System.out.print("쿠폰 번호를 입력하세요 (0 입력 시 건너뜀): ");
+                    String couponCode = scanner.nextLine();
 
-                if (coupon.isValid(couponCode)) {
-                    String targetCategory = coupon.getCategoryForCoupon(couponCode);
+                    if (coupon.isValid(couponCode)) {
+                        String targetCategory = coupon.getCategoryForCoupon(couponCode);
 
-                    int couponTotal = cart.getTotalPriceByCategory(targetCategory);
-                    int remainingTotal = cart.getTotalPriceExcludingCategory(targetCategory);
+                        int couponTotal = cart.getTotalPriceByCategory(targetCategory);
+                        int remainingTotal = cart.getTotalPriceExcludingCategory(targetCategory);
 
-                    System.out.printf("\n[%s] 카테고리에 쿠폰이 적용되어 %d원이 할인되었습니다.\n", targetCategory, couponTotal);
+                        System.out.printf("\n[%s] 카테고리에 쿠폰이 적용되어 %d원이 할인되었습니다.\n", targetCategory, couponTotal);
 
-                    if (remainingTotal > 0) {
-                        System.out.printf("\n잔여 항목(%d원)에 대해 카드 결제를 진행합니다.\n", remainingTotal);
+                        if (remainingTotal > 0) {
+                            System.out.printf("\n잔여 항목(%d원)에 대해 카드 결제를 진행합니다.\n", remainingTotal);
 
-                        System.out.print("카드번호(8자리)를 입력하세요: ");
-                        String cardInput = scanner.nextLine();
+                            System.out.print("카드번호(8자리)를 입력하세요: ");
+                            String cardInput = scanner.nextLine();
 
-                        if (isValidCardNumber(cardInput)) {
-                            System.out.print("카드 유효기간을 입력하세요 (MM/YY): ");
-                            String exp = scanner.nextLine();
+                            if (isValidCardNumber(cardInput)) {
+                                System.out.print("카드 유효기간을 입력하세요 (MM/YY): ");
+                                String exp = scanner.nextLine();
 
-                            if (isValidExpiry(exp)) {
-                                onPaymentSuccess("쿠폰+카드", couponCode, cardInput, exp, cart);
+                                if (isValidExpiry(exp)) {
+                                    onPaymentSuccess("쿠폰+카드", couponCode, cardInput, exp, cart);
 
+                                } else {
+                                    System.out.println("유효하지 않은 유효기간입니다.");
+                                    onPaymentFailure();
+                                }
                             } else {
-                                System.out.println("유효하지 않은 유효기간입니다.");
+                                System.out.println("유효하지 않은 카드번호입니다.");
                                 onPaymentFailure();
                             }
                         } else {
-                            System.out.println("유효하지 않은 카드번호입니다.");
-                            onPaymentFailure();
+                            // 쿠폰으로 전부 결제됨
+                            onPaymentSuccess("쿠폰", couponCode, null, null, cart);
                         }
-                    } else {
-                        // 쿠폰으로 전부 결제됨
-                        onPaymentSuccess("쿠폰", couponCode, null, null, cart);
-                    }
-                    return;
+                        return;
 
-                } else if (couponCode.equals("0")) {
-                    System.out.println("쿠폰 사용을 건너뜁니다.");
-                    break; // 카드결제로
-                } else {
-                    System.out.println("유효하지 않은 쿠폰입니다. 다시 입력해주세요.");
+                    } else if (couponCode.equals("0")) {
+                        System.out.println("쿠폰 사용을 건너뜁니다.");
+                        break; // 카드결제로
+                    } else {
+                        System.out.println("유효하지 않은 쿠폰입니다. 다시 입력해주세요.");
+                    }
                 }
             }
-        }
 
-        // 카드 결제만 진행
-        System.out.print("카드번호(8자리)를 입력하세요: ");
-        String cardInput = scanner.nextLine();
+            // 카드 결제만 진행
+            System.out.print("카드번호(8자리)를 입력하세요: ");
+            String cardInput = scanner.nextLine();
 
-        if (isValidCardNumber(cardInput)) {
-            System.out.print("카드 유효기간을 입력하세요 (MM/YY): ");
-            String exp = scanner.nextLine();
+            if (isValidCardNumber(cardInput)) {
+                System.out.print("카드 유효기간을 입력하세요 (MM/YY): ");
+                String exp = scanner.nextLine();
 
-            if (isValidExpiry(exp)) {
-                onPaymentSuccess("카드", null, cardInput, exp, cart);
+                if (isValidExpiry(exp)) {
+                    onPaymentSuccess("카드", null, cardInput, exp, cart);
+                } else {
+                    System.out.println("유효하지 않은 유효기간입니다.");
+                    onPaymentFailure();
+                }
             } else {
-                System.out.println("유효하지 않은 유효기간입니다.");
+                System.out.println("유효하지 않은 카드번호입니다.");
                 onPaymentFailure();
             }
+
         } else {
-            System.out.println("유효하지 않은 카드번호입니다.");
             onPaymentFailure();
         }
-
-    } else {
-        onPaymentFailure();
     }
-}
 
 
     public void onPaymentSuccess(String method, String couponCode, String cardNumber, String expiry, Cart cart) {

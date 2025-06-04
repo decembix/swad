@@ -3,7 +3,7 @@ import java.util.Map;
 
 public class Cart {
     // 메뉴 이름을 키로, 수량을 값으로 저장
-    private Map<MenuItem, Integer> cartList; //원래 cartList와 이미 카트에 들어간 아이템의 속성을 체크할 cartItem을 따로 두었는데, 둘이 겹친다고 판단하여 cartItem 삭제
+    private Map<MenuItem, Integer> cartList;
 
     public Cart() {
         cartList = new HashMap<>();
