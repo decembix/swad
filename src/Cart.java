@@ -15,14 +15,13 @@ public class Cart {
         cartList.put(item, count + 1);
     }
 
-
     public void display() {
     if (cartList.isEmpty()) {
         System.out.println("장바구니가 비어 있습니다.");
         return;
     }
 
-    System.out.println("[ 장바구니 내용 ]");
+    System.out.println("\n[ 장바구니 내용 ]");
     for (Map.Entry<MenuItem, Integer> entry : cartList.entrySet()) {
         MenuItem item = entry.getKey();
         int quantity = entry.getValue();
@@ -49,6 +48,28 @@ public class Cart {
     // getter 함수
     public Map<MenuItem, Integer> getCartList() {
     return cartList;
+    }
+
+    public int getTotalPriceByCategory(String category) {
+    int total = 0;
+    for (Map.Entry<MenuItem, Integer> entry : cartList.entrySet()) {
+        MenuItem item = entry.getKey();
+        if (item.getCategory().equals(category)) {
+            total += item.getPrice() * entry.getValue();
+        }
+    }
+    return total;
+}
+
+public int getTotalPriceExcludingCategory(String category) {
+    int total = 0;
+    for (Map.Entry<MenuItem, Integer> entry : cartList.entrySet()) {
+        MenuItem item = entry.getKey();
+        if (!item.getCategory().equals(category)) {
+            total += item.getPrice() * entry.getValue();
+        }
+    }
+    return total;
 }
 
 }

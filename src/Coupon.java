@@ -1,11 +1,20 @@
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 
 public class Coupon {
-    private final List<String> validCodes = Arrays.asList("burger", "drink");
+    private Map<String, String> validCodes;
 
-    // 쿠폰 코드가 유효한지 검사
+    public Coupon() {
+        validCodes = new HashMap<>();
+        validCodes.put("burger", "버거");
+        validCodes.put("drink", "음료");
+        validCodes.put("setmenu", "세트");
+    }
+
     public boolean isValid(String code) {
-        return validCodes.contains(code.toLowerCase());
+        return validCodes.containsKey(code.toLowerCase());
+    }
+
+    public String getCategoryForCoupon(String code) {
+        return validCodes.get(code.toLowerCase());
     }
 }

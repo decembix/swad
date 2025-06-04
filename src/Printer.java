@@ -1,15 +1,20 @@
 import java.util.Map;
 
 public class Printer {
-    public void printReceipt(String method, String codeOrCard, String expiry, Cart cart) {
+    public void printReceipt(String method, String couponCode, String cardNumber, String expiry, Cart cart) {
         System.out.println("\n========== [영수증] ==========");
         System.out.println("결제 방식: " + method);
 
-        if (method.equals("카드드")) {
-            System.out.println("카드번호: " + codeOrCard);
+        if (couponCode != null) {
+            System.out.println("쿠폰 코드: " + couponCode);
+        }
+
+        if (cardNumber != null) {
+            System.out.println("카드번호: " + cardNumber);
+        }
+
+        if (expiry != null) {
             System.out.println("유효기간: " + expiry);
-        } else if (method.equals("쿠폰")) {
-            System.out.println("쿠폰 코드: " + codeOrCard);
         }
 
         System.out.println("\n[주문 내역]");
