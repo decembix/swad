@@ -130,36 +130,6 @@ public class Kiosk {
         }
     }
 
-
-    //카드번호 검사(8자리)
-    private boolean isValidCardNumber(String cardNumber) {
-    return cardNumber.matches("\\d{8}");
-    }
-
-    //카드 유효기간 검사
-    private boolean isValidExpiry(String expiry) {
-        // MM/YY 확인
-     if (!expiry.matches("\\d{2}/\\d{2}")) {
-        return false;
-    }
-
-    String[] parts = expiry.split("/");
-    int month = Integer.parseInt(parts[0]);
-    int year = Integer.parseInt(parts[1]);
-
-    // 월이 유효하지 않거나 연도가 25보다 작은 경우 실패
-    if (month < 1 || month > 12 || year < 25) {
-        return false;
-    }
-
-    // 25년이면 6월보다 작을 경우 실패
-    if (year == 25 && month < 6) {
-        return false;
-    }
-
-    return true;
-    }
-
     // 결제 처리(카드, 쿠폰 사용)
     public void clickPaymentButton() {
         screen.displayFinalAmount(cart);
@@ -189,11 +159,11 @@ public class Kiosk {
                             System.out.print("카드번호(8자리)를 입력하세요: ");
                             String cardInput = scanner.nextLine();
 
-                            if (isValidCardNumber(cardInput)) {
+                            if (payment.isValidCardNumber(cardInput)) {
                                 System.out.print("카드 유효기간을 입력하세요 (MM/YY): ");
                                 String exp = scanner.nextLine();
 
-                                if (isValidExpiry(exp)) {
+                                if (payment.isValidExpiry(exp)) {
                                     onPaymentSuccess("쿠폰+카드", couponCode, cardInput, exp, cart);
 
                                 } else {
@@ -223,11 +193,11 @@ public class Kiosk {
             System.out.print("카드번호(8자리)를 입력하세요: ");
             String cardInput = scanner.nextLine();
 
-            if (isValidCardNumber(cardInput)) {
+            if (payment.isValidCardNumber(cardInput)) {
                 System.out.print("카드 유효기간을 입력하세요 (MM/YY): ");
                 String exp = scanner.nextLine();
 
-                if (isValidExpiry(exp)) {
+                if (payment.isValidExpiry(exp)) {
                     onPaymentSuccess("카드", null, cardInput, exp, cart);
                 } else {
                     System.out.println("유효하지 않은 유효기간입니다.");
