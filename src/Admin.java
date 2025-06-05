@@ -39,7 +39,7 @@ public class Admin {
         int price = Integer.parseInt(scanner.nextLine());
 
         menuList.addMenuItem(new MenuItem(name, price));
-        System.out.println("✅ 메뉴가 추가되었습니다.");
+        System.out.println("메뉴가 추가되었습니다.");
     }
 
     // 메뉴 삭제
@@ -53,9 +53,9 @@ public class Admin {
 
         if (item != null) {
             menuList.removeMenuItem(item);
-            System.out.println("🗑️ 메뉴가 삭제되었습니다.");
+            System.out.println("메뉴가 삭제되었습니다.");
         } else {
-            System.out.println("❌ 유효하지 않은 메뉴 번호입니다.");
+            System.out.println("유효하지 않은 메뉴 번호입니다.");
         }
     }
 }
