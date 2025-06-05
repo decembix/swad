@@ -5,7 +5,6 @@ public class MenuItem {
     public MenuItem(String name, int price) {
         this.name = name;
         this.price = price;
-
     }
 
     public String getName() {
@@ -16,15 +15,8 @@ public class MenuItem {
         return price;
     }
 
-    public int isAvailavle(){
-        //MenuList에 this라는 Item이 있으면 return 1 없으면 retutn 0
-
-        return 1;
-    }
-
-    public int isinMenu(){
-        //MenuList에 this라는 Item이 있으면 return 1 없으면 retutn 0
-
-        return 1;
+    @Override
+    public String toString() {
+        return name + " - " + price + "원";
     }
 }

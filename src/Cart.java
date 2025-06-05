@@ -15,6 +15,14 @@ public class Cart {
         cartList.put(item, count + 1);
     }
 
+    // 총 결제 금액 반환
+    public int getTotalAmount() {
+        int total = 0;
+        for (Map.Entry<MenuItem, Integer> entry : cartList.entrySet()) {
+            total += entry.getKey().getPrice() * entry.getValue();
+        }
+        return total;
+    }
 
     public void display() {
     if (cartList.isEmpty()) {
@@ -43,7 +51,7 @@ public class Cart {
     }
 
     // 장바구니 비우기 (결제 완료 후 초기화용)
-    public void clearCart() {
+    public void clear() {
         cartList.clear();
     }
 }
